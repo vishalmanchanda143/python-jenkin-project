@@ -11,9 +11,13 @@ pipeline {
         
         stage('Checkout'){
            steps {
-                git credentialsId: '62b90739-5092-4897-adac-f2f831f5d496', 
-                url: 'https://github.com/vishalmanchanda143/python-jenkin-project',
-                branch: 'main'
+                script {
+                    checkout scmGit(
+                        branches: [[name: '*/main']],
+                        extensions: [],
+                        userRemoteConfigs: [[credentialsId: '62b90739-5092-4897-adac-f2f831f5d496', url: 'https://github.com/vishalmanchanda143/python-jenkin-project']]
+                    )
+                }
            }
         }
 
