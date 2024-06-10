@@ -43,7 +43,7 @@ pipeline {
         stage('Checkout K8S manifest SCM'){
             steps {
                 git credentialsId: '62b90739-5092-4897-adac-f2f831f5d496', 
-                url: 'git@github.com:vishalmanchanda143/cicd-demo-manifests-repo.git',
+                url: 'https://github.com/vishalmanchanda143/cicd-demo-manifests-repo.git',
                 branch: 'main'
             }
         }
@@ -59,6 +59,7 @@ pipeline {
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
                         git remote -v
+                        git config --list
                         git push https://github.com/vishalmanchanda143/cicd-demo-manifests-repo.git origin HEAD:main
                         '''                        
                     }
