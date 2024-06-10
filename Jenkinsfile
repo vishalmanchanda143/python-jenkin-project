@@ -34,7 +34,7 @@ pipeline {
                     echo 'Build Docker Image'
                     withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                         sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                        sh "docker push vishal143/cicd-e2e:${BUILD_NUMBER} ."
+                        sh "docker push vishal143/cicd-e2e:${BUILD_NUMBER}"
                     }
                 }
             }
