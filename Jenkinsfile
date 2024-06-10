@@ -49,6 +49,10 @@ pipeline {
         }
         
         stage('Update K8S manifest & push to Repo'){
+            environment {
+            GIT_REPO_NAME = "cicd-demo-manifests-repo"
+            GIT_USER_NAME = "vishalmanchanda143"
+        }
             steps {
                 script{
                      withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
