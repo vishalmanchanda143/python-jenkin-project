@@ -31,10 +31,10 @@ pipeline {
         stage('Push the artifacts'){
            steps{
                 script{
-                    sh '''
-                    echo 'Push to Repo'
-                    docker push vishal143/cicd-e2e:${BUILD_NUMBER}
-                    '''
+                    echo 'Build Docker Image'
+                    withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                        sh "docker build -t vishal143/cicd-e2e:${BUILD_NUMBER} ."
                 }
             }
         }
