@@ -85,13 +85,13 @@ post {
     }
 }
 
-def setGitHubCommitStatus(String state, String description, String targetUrl) {
-    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+def updateGitHubCommitStatus(String state, String description) {
+    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
         def commitStatus = [
             state: state,
             context: 'jenkins/build',
             description: description,
-            target_url: targetUrl
+            target_url: "${env.BUILD_URL}"
         ]
 
         def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
