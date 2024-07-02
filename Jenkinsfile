@@ -86,7 +86,7 @@ post {
 }
 
 def updateGitHubCommitStatus(String state, String description) {
-    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
+    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
         def commitStatus = [
             state: state,
             context: 'jenkins/build',
