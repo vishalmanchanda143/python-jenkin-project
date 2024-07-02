@@ -75,4 +75,36 @@ pipeline {
             }
         }
     }
+post {
+        success {
+            setGitHubCommitStatus('success', 'Build succeeded!', "${env.BUILD_URL}")
+        }
+        failure {
+            setGitHubCommitStatus('failure', 'Build failed!', "${env.BUILD_URL}")
+        }
+    }
+}
+
+def setGitHubCommitStatus(String state, String description, String targetUrl) {
+    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+        def commitStatus = [
+            state: state,
+            context: 'jenkins/build',
+            description: description,
+            target_url: targetUrl
+        ]
+
+        def repoUrl = scm.getUserRemoteConfigs()[0].getUrl()
+        def repoOwner = repoUrl.split('/')[3]
+        def repoName = repoUrl.split('/')[4].replace('.git', '')
+        def apiUrl = "https://api.github.com/repos/${repoOwner}/${repoName}/statuses/${env.GIT_COMMIT}"
+
+        sh """
+            curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '${new groovy.json.JsonBuilder(commitStatus).toString()}' \
+            ${apiUrl}
+        """
+    }
+
 }
