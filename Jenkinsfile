@@ -77,10 +77,10 @@ pipeline {
     }
 post {
         success {
-            setGitHubCommitStatus('success', 'Build succeeded!', "${env.BUILD_URL}")
+            updateGitHubCommitStatus('success', 'Build succeeded!', "${env.BUILD_URL}")
         }
         failure {
-            setGitHubCommitStatus('failure', 'Build failed!', "${env.BUILD_URL}")
+            updateGitHubCommitStatus('failure', 'Build failed!', "${env.BUILD_URL}")
         }
     }
 }
